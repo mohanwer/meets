@@ -53,14 +53,35 @@ export class MeetsStack extends cdk.Stack {
       resources: ["*"]
     }));
 
-    new lambda.Function(this, 'lambda', {
-      runtime: lambda.Runtime.PYTHON_3_8,
-      functionName: 'Meets-Create',
-      handler: 'database.create',
-      code: lambda.Code.fromAsset('../source'),
-      timeout: cdk.Duration.minutes(1),
-      memorySize: 128,
-      role: role
-    })
+    const operations = [
+      {
+        functionName: 'Meets-Create',
+        handler: 'database.create',
+      },
+      {
+        functionName: 'Meets-Update',
+        handler: 'database.update',
+      },
+      {
+        functionName: 'Meets-Delete',
+        handler: 'database.delete',
+      },
+      {
+        functionName: 'Meets-Get',
+        handler: 'database.get'
+      }
+    ];
+
+    operations.map(operation => {
+      new lambda.Function(this, `l-${operation.functionName}`, {
+        runtime: lambda.Runtime.PYTHON_3_8,
+        functionName: operation.functionName,
+        handler: operation.handler,
+        code: lambda.Code.fromAsset('../source'),
+        timeout: cdk.Duration.minutes(1),
+        memorySize: 128,
+        role: role
+      });
+    });
   }
 }
