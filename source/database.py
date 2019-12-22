@@ -8,6 +8,7 @@ TABLE_NAME = 'Meets'
 client = boto3.resource(RESOURCE_NAME, region_name=REGION_NAME)
 table = client.Table(TABLE_NAME)
 
+
 def create(event, context):
     print('Processing Create request:', event)
     current_time = time.time_ns()
@@ -23,6 +24,7 @@ def create(event, context):
     table.put_item(Item=new_event)
     return format_response({'id': id})
 
+
 def delete(event, context):
     print('Processing Delete request:', event)
     id = event['queryStringParameters']['id']
@@ -32,6 +34,7 @@ def delete(event, context):
     table.delete_item(Key=key)
     return format_response({})
 
+
 def get(event, context):
     print('Processing Get request:', event)
     id = event['queryStringParameters']['id']
@@ -40,6 +43,7 @@ def get(event, context):
     }
     item = table.get_item(Key=key)
     return format_response(item['Item'])
+
 
 def update(event, context):
     print('Processing Update request:', event)
@@ -59,6 +63,7 @@ def update(event, context):
     )
     return format_response(response)
 
+
 def format_response(body):
     decimals_converted = replace_decimals(body)
     formatted_body = json.dumps(decimals_converted)
@@ -68,6 +73,7 @@ def format_response(body):
         'headers': {},
         'body': formatted_body
     }
+
 
 def replace_decimals(obj):
     if isinstance(obj, list):
