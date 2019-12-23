@@ -1,24 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Router from 'next/router';
-// import axios from 'axios';
+import * as cookie from 'js-cookie';
 
-interface Props {
-    id_token: string,
-    access_token: string,
-    expires_in: number,
-    token_type: string
-}
+const Callback = () => {
 
-export default class Callback extends React.Component<any, any> {
-  componentDidMount(): void {
-    const { route, asPath } = Router;
-    console.log(route);
-    console.log(asPath)
-  }
+  useEffect(() => {
+    const { asPath } = Router;
+    const params: string[] = asPath.split("#")[1].split('&');
+    const id_token = urlParamExtract("id_token", params);
+    const token = urlParamExtract("access_token", params);
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('id_token', id_token);
+    cookie.set('access_token', token);
+  });
 
-  render() {
-    return (
-      <div>Authenticated</div>
-    )
-  }
-}
+  const urlParamExtract = (key: string, params: string[]) =>
+    params.find(p => p.startsWith(`${key}=`)).replace(`${key}=`, '');
+
+  return (
+    <div>Authenticated</div>
+  )
+
+};
+
+export default Callback;

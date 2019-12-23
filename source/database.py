@@ -10,7 +10,7 @@ table = client.Table(TABLE_NAME)
 
 
 def create(event, context):
-    print('Processing Create request:', event)
+    print('Processing Create request:', event, context)
     current_time = time.time_ns()
     id = str(uuid.uuid4())
     new_event = {
@@ -18,6 +18,7 @@ def create(event, context):
         'eventName': event['eventName'],
         'shortDescription': event['shortDescription'],
         'longDescription': event['longDescription'],
+        'createdBy': context.authorizer.claims['cognito:username'],
         'modified': current_time,
         'created': current_time
     }
