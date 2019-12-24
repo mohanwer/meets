@@ -3,8 +3,8 @@ import { NextPageContext } from 'next';
 import nextCookie from 'next-cookies';
 import Router from 'next/router';
 import { LOGIN_URL } from "./constants";
-//taken from : https://dev.to/jolvera/user-authentication-with-nextjs-4023
 
+//taken guide from : https://dev.to/jolvera/user-authentication-with-nextjs-4023
 export const auth = (ctx: NextPageContext) => {
   const { access_token } = nextCookie(ctx);
 

@@ -1,7 +1,32 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 body {
     @apply bg-gray-100;
 }
+
+.btn {
+    @apply inline-block px-5 py-3 rounded-lg bg-indigo-500 text-sm text-white uppercase tracking-wider font-semibold;
+}
+
+.btn:hover {
+    @apply bg-indigo-400
+}
+
+.form-label {
+    @apply block text-gray-600 font-bold text-left mb-3 mb-0 pr-4 uppercase;
+}
+
+.form-text-input {
+    @apply block w-full bg-gray-100 rounded mb-2;
+}
+
+.form-text-input:focus {
+    @apply bg-white
+}
+
+.form-error {
+    @apply text-red-500 italic text-sm
+}
+
+@tailwind utilities;

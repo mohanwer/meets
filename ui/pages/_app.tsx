@@ -1,25 +1,24 @@
 import React from 'react';
 import App from 'next/app';
-// import nextCookie from 'next-cookies';
-// import { Requests } from '../services/requests';
+import NavBar from '../components/common/nav';
+
 import '../styles/index.css';
+import Link from 'next/link';
 
 class CustomApp extends App {
 
-  // static getInitialProps = async({Component, ctx}) => {
-  //   const access_token = nextCookie(ctx);
-  //   if (access_token)
-  //     Requests.setToken(access_token);
-  //   const pageProps = Component.getInitialProps
-  //       ? await Component.getInitialProps(ctx)
-  //       : {};
-  //
-  //   return { pageProps };
-  // };
-
   render() {
     const { Component, pageProps } = this.props;
-    return <Component {...pageProps} />
+    return (
+      <div>
+        <NavBar/>
+        <div className='container w-full mx-auto pt-20'>
+          <div className="w-full px-8 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+            <Component {...pageProps} />
+          </div>
+        </div>
+      </div>
+    )
   }
 }
 

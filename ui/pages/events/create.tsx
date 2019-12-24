@@ -1,8 +1,8 @@
 import React from 'react'
-import { Requests } from "../../services/requests";
+import CreateForm from "../../components/events/Create";
 
 export default() => {
   return (
-    <h1 className="t">Event Creation</h1>
+    <CreateForm/>
   )
 };
