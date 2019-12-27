@@ -1,8 +1,10 @@
 import React from 'react'
 import CreateForm from "../../components/events/Create";
+import { withAuthSync } from '../../utils/auth';
 
-export default() => {
-  return (
-    <CreateForm/>
-  )
-};
+const createForm = () =>
+(
+  <CreateForm/>
+);
+
+export default withAuthSync(createForm);

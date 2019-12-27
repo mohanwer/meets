@@ -15,7 +15,7 @@ export class MeetsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, stackProps);
 
-    // Permissions take from:
+    // Permissions taken from:
     // https://aws.amazon.com/blogs/security/how-to-create-an-aws-iam-policy-to-grant-aws-lambda-access-to-an-amazon-dynamodb-table/
 
     const role = new iam.Role(this, 'role', {
@@ -56,19 +56,19 @@ export class MeetsStack extends cdk.Stack {
     const operations = [
       {
         functionName: 'Meets-Create',
-        handler: 'database.create',
+        handler: 'events.create',
       },
       {
         functionName: 'Meets-Update',
-        handler: 'database.update',
+        handler: 'events.update',
       },
       {
         functionName: 'Meets-Delete',
-        handler: 'database.delete',
+        handler: 'events.delete',
       },
       {
         functionName: 'Meets-Get',
-        handler: 'database.get'
+        handler: 'events.get'
       }
     ];
 
@@ -77,7 +77,7 @@ export class MeetsStack extends cdk.Stack {
         runtime: lambda.Runtime.PYTHON_3_8,
         functionName: operation.functionName,
         handler: operation.handler,
-        code: lambda.Code.fromAsset('../source'),
+        code: lambda.Code.fromAsset('../aws_lambda'),
         timeout: cdk.Duration.minutes(1),
         memorySize: 128,
         role: role

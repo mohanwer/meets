@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage, FormikProps, withFormik, FormikErrors } from 'formik';
+import { Form, Field, FormikProps, withFormik, FormikErrors } from 'formik';
 import { Requests } from "../../services/requests";
 
 interface EventValues {
@@ -53,8 +53,10 @@ const innerForm = (props: FormikProps<EventValues>) => {
 };
 
 const CreateForm = withFormik<{}, EventValues>({
-  handleSubmit: values => {
+  handleSubmit: async values => {
     console.log(values);
+    const results = await Requests.post('/events', values);
+    console.log(results);
   },
   validate: (values) => {
     let errors: FormikErrors<EventValues> = {};

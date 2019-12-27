@@ -10,15 +10,18 @@ table = client.Table(TABLE_NAME)
 
 
 def create(event, context):
-    print('Processing Create request:', event, context)
+    print('Processing Create request:', event)
+    print('Contexxt: ', context)
     current_time = time.time_ns()
     id = str(uuid.uuid4())
+    body = event['body']
     new_event = {
         'id': id,
-        'eventName': event['eventName'],
-        'shortDescription': event['shortDescription'],
-        'longDescription': event['longDescription'],
-        'createdBy': context.authorizer.claims['cognito:username'],
+        'eventName': body['eventName'],
+        'shortDescription': body['shortDescription'],
+        'longDescription': body['longDescription'],
+        'modifiedBy': body['userId'],
+        'createdBy': body['userId'],
         'modified': current_time,
         'created': current_time
     }
@@ -48,17 +51,19 @@ def get(event, context):
 
 def update(event, context):
     print('Processing Update request:', event)
-    id = event['id']
+    body = event['body']
+    id = body['id']
     current_time = time.time_ns()
     response = table.update_item(
         Key={'id': id},
         UpdateExpression="set eventName=:n, shortDescription=:s, "
-                         "longDescription=:l, modified=:m",
+                         "longDescription=:l, modified=:t, modifiedBy=:m",
         ExpressionAttributeValues={
-            ':n': event['eventName'],
-            ':s': event['shortDescription'],
-            ':l': event['longDescription'],
-            ':m': current_time
+            ':n': body['eventName'],
+            ':s': body['shortDescription'],
+            ':l': body['longDescription'],
+            ':m': body['userId'],
+            ':t': current_time
         },
         ReturnValues='UPDATED_NEW'
     )

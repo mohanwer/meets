@@ -1,5 +1,5 @@
 import React from 'react';
-import { withAuthSync } from "../utils/auth";
+import { withAuthSync } from "./auth";
 
 const auth = () => (
   <div>Unlocked</div>
