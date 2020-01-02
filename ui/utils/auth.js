@@ -15,7 +15,7 @@ export const auth = ctx => {
   const { token } = nextCookie(ctx)
 
   // If there's no token, it means the user is not logged in.
-  if (!token) {
+  if (!token || (token && token.exp <= Math.round(new Date().getTime()/1000))) {
     if (typeof window === 'undefined') {
       ctx.res.writeHead(302, { Location: process.env.LOGIN_URL })
       ctx.res.end()

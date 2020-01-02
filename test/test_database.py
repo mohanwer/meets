@@ -15,13 +15,13 @@ class TestDatabaseMethods(unittest.TestCase):
             },
         }
         self._context = {}
-        self._id = json.loads(db.create(self._event, self._context)['body'])['id']
+        self._id = db.create(self._event, self._context)['id']
         pass
 
     @mock_dynamodb2
     def test_create(self):
-        id = json.loads(db.create(self._event, self._context)['body'])['id']
-        created_item = json.loads(db.get(self.create_id_json(id), {})['body'])
+        id = db.create(self._event, self._context)['id']
+        created_item = db.get(self.create_id_json(id), {})
         db.delete(self.create_id_json(id), {})
         self.assertEqual(self._event['body']['eventName'], created_item['eventName'])
 
@@ -36,7 +36,7 @@ class TestDatabaseMethods(unittest.TestCase):
                 'userId': 'abcd',
             },
         }
-        new_val = json.loads(db.update(new_event, {})['body'])
+        new_val = db.update(new_event, {})
         self.assertEqual(new_event['body']['eventName'], new_val['Attributes']['eventName'])
 
     @mock_dynamodb2

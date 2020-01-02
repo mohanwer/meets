@@ -2,6 +2,8 @@ import cdk = require('@aws-cdk/core');
 import iam = require ("@aws-cdk/aws-iam");
 import lambda = require("@aws-cdk/aws-lambda");
 import {Effect, PolicyStatement} from "@aws-cdk/aws-iam";
+import apigateway = require('@aws-cdk/aws-apigateway');
+import {IFunction} from "@aws-cdk/aws-lambda"
 
 const stackProps: cdk.StackProps = {
   env: {
@@ -72,16 +74,20 @@ export class MeetsStack extends cdk.Stack {
       }
     ];
 
-    operations.map(operation => {
-      new lambda.Function(this, `l-${operation.functionName}`, {
+    const createLambda = (functionName: string, handler: string): IFunction => {
+      return new lambda.Function(this, `l-${functionName}`, {
         runtime: lambda.Runtime.PYTHON_3_8,
-        functionName: operation.functionName,
-        handler: operation.handler,
+        functionName: functionName,
+        handler: handler,
         code: lambda.Code.fromAsset('../aws_lambda'),
         timeout: cdk.Duration.minutes(1),
         memorySize: 128,
         role: role
       });
-    });
+    }
+
+    operations.map(operation => createLambda(operation.functionName, operation.handler));
+
+    //todo: create api gateway
   }
 }

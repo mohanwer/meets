@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 axios.defaults.baseURL = process.env.API_URL;
-axios.defaults.headers.common["Authorization"] =  localStorage.getItem("token");
+if (typeof window !== "undefined")
+  axios.defaults.headers.common["Authorization"] =  localStorage.getItem("token");
 
 export class Requests {
   static async get<T>(url) {
