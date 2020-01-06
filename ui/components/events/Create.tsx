@@ -12,7 +12,7 @@ interface EventValues {
   city: string,
   state: string,
   postal: string,
-  geoCode?: GoogleGeoCode,
+  geoLocation?: GoogleGeoCode,
 }
 
 const innerForm = (props: FormikProps<EventValues>) => {
@@ -23,7 +23,7 @@ const innerForm = (props: FormikProps<EventValues>) => {
     props.setFieldValue('city', address.city)
     props.setFieldValue('state', address.state)
     props.setFieldValue('postal', address.postal)
-    props.setFieldValue('geoCode', address.geoCode)
+    props.setFieldValue('geoLocation', address.geoCode)
   }
 
   return (

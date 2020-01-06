@@ -1,7 +1,7 @@
 import unittest, json
 import aws_lambda.events as db
 from moto import mock_dynamodb2
-
+from decimal import Decimal
 
 class TestDatabaseMethods(unittest.TestCase):
 
@@ -12,6 +12,10 @@ class TestDatabaseMethods(unittest.TestCase):
                 'shortDescription': 'testShort',
                 'longDescription': 'testlong',
                 'userId': 'abc',
+                'geoLocation': {
+                    'lat': Decimal('39.8765056'),
+                    'lng': Decimal('-86.1437945'),
+                }
             },
         }
         self._context = {}

@@ -1,5 +1,6 @@
 import boto3, time, uuid
 
+
 RESOURCE_NAME = 'dynamodb'
 REGION_NAME = 'us-east-2'
 TABLE_NAME = 'Meets'
@@ -18,12 +19,17 @@ def create(event, context):
         "eventName": body["eventName"],
         "shortDescription": body["shortDescription"],
         "longDescription": body["longDescription"],
+        "geoLocation": {
+            "lat": body["geoLocation"]["lat"],
+            "lng": body["geoLocation"]["lng"]
+        },
         "modifiedBy": body["userId"],
         "createdBy": body["userId"],
         "modified": current_time,
         "created": current_time
     }
     table.put_item(Item=new_event)
+
     return {"id": id}
 
 
