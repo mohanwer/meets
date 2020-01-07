@@ -21,6 +21,5 @@ export class MeetsStack extends Stack {
     const eventsCreate = createLambda(this, lambdaRole, 'Meets-Create', 'events.create')
     const eventResource = createEventResource(this, api)
     const postMethod = eventsPost(this, eventsCreate, api, eventResource, authorizer)
-
   }
 }

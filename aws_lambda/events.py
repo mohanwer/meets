@@ -1,5 +1,5 @@
 import boto3, time, uuid
-
+from decimal import Decimal
 
 RESOURCE_NAME = 'dynamodb'
 REGION_NAME = 'us-east-2'
@@ -20,8 +20,9 @@ def create(event, context):
         "shortDescription": body["shortDescription"],
         "longDescription": body["longDescription"],
         "geoLocation": {
-            "lat": body["geoLocation"]["lat"],
-            "lng": body["geoLocation"]["lng"]
+            # Todo: check the right way to cast float to decimals
+            "lat": Decimal(str(body["geoLocation"]["lat"])),
+            "lng": Decimal(str(body["geoLocation"]["lng"]))
         },
         "modifiedBy": body["userId"],
         "createdBy": body["userId"],
@@ -29,7 +30,6 @@ def create(event, context):
         "created": current_time
     }
     table.put_item(Item=new_event)
-
     return {"id": id}
 
 

@@ -1,11 +1,14 @@
 import {Stack} from '@aws-cdk/core'
-import {CfnAuthorizer, AuthorizationType, RestApi} from '@aws-cdk/aws-apigateway'
+import {CfnAuthorizer, AuthorizationType, RestApi, Cors, Model} from '@aws-cdk/aws-apigateway'
 import {EndpointType} from "@aws-cdk/aws-apigateway/lib/restapi"
 
 export const createApi = (scope: Stack): RestApi => {
   return new RestApi(scope, 'meets-api', {
     endpointTypes: [EndpointType.REGIONAL],
     restApiName: 'meets-api',
+    defaultCorsPreflightOptions: {
+      allowOrigins: Cors.ALL_ORIGINS,
+    },
   })
 }
 

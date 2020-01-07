@@ -2,20 +2,20 @@ import {JsonSchemaType, JsonSchemaVersion, RestApi} from "@aws-cdk/aws-apigatewa
 
 export const createResponseEventModel = (api: RestApi) => {
   return api.addModel('EventsResponseModel', {
-      contentType: 'application/json',
-      modelName: 'EventsCreateResponse',
-      schema: {
-        'schema': JsonSchemaVersion.DRAFT4,
-        "title": "EventPostResponse",
-        'type': JsonSchemaType.OBJECT,
-        "properties": {
-          'id': {
-            "type": JsonSchemaType.STRING
-          }
-        },
-        "required": ["id"]
-      }
-    })
+    contentType: 'application/json',
+    modelName: 'EventsCreateResponse',
+    schema: {
+      schema: JsonSchemaVersion.DRAFT4,
+      title: "EventPostResponse",
+      type: JsonSchemaType.OBJECT,
+      properties: {
+        id: {
+          type: JsonSchemaType.STRING
+        }
+      },
+      required: ["id"]
+    }
+  })
 }
 
 export const createRequestEventModel = (api: RestApi) => {
@@ -33,8 +33,8 @@ export const createRequestEventModel = (api: RestApi) => {
         geoLocation: {
           type: JsonSchemaType.OBJECT,
           properties: {
-            lat: {type: JsonSchemaType.INTEGER},
-            lng: {type: JsonSchemaType.INTEGER}
+            lat: {type: JsonSchemaType.NUMBER},
+            lng: {type: JsonSchemaType.NUMBER}
           }
         }
       }
