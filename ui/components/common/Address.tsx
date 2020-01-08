@@ -46,6 +46,7 @@ export const placesResultToAddress = (place: google.maps.places.PlaceResult): Go
 
 export const Address = (props:Props) => {
   const [streetAddress, setStreetAddress] = useState('')
+
   useEffect(() => {
     const input = document.getElementById("address-search-box") as HTMLInputElement
     const autoComplete = new google.maps.places.Autocomplete(

@@ -11,6 +11,11 @@ class TestDatabaseMethods(unittest.TestCase):
                 'eventName': 'testName',
                 'shortDescription': 'testShort',
                 'longDescription': 'testlong',
+                "address1": "$inputRoot.address1",
+                "address2": "$inputRoot.address2",
+                "city": "$inputRoot.city",
+                "state": '',
+                "postal": "$inputRoot.postal",
                 'userId': 'abc',
                 'geoLocation': {
                     'lat': 39.76381960000001,

@@ -16,9 +16,15 @@ def create(event, context):
     body = event["body"]
     new_event = {
         "id": id,
+        "type": "event",
         "eventName": body["eventName"],
         "shortDescription": body["shortDescription"],
         "longDescription": body["longDescription"],
+        "address1": body["address1"],
+        "address2": body["address2"],
+        "city": body["city"],
+        "state": body["state"],
+        "postal": body["postal"],
         "geoLocation": {
             # Todo: check the right way to cast float to decimals
             "lat": Decimal(str(body["geoLocation"]["lat"])),
@@ -35,7 +41,7 @@ def create(event, context):
 
 def delete(event, context):
     print("Processing Delete request:", event)
-    id = event["queryStringParameters"]["id"]
+    id = event["id"]
     key = {
         "id": id
     }
@@ -45,7 +51,7 @@ def delete(event, context):
 
 def get(event, context):
     print("Processing Get request:", event)
-    id = event["queryStringParameters"]["id"]
+    id = event["id"]
     key = {
         "id": id
     }
