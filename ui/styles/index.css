@@ -17,6 +17,10 @@ body {
     @apply block text-gray-600 font-bold text-left mb-3 mx-3 mb-0 pr-4 uppercase;
 }
 
+.form-sub-text {
+    @apply block text-gray-600 text-left mr-3;
+}
+
 .form-text-input {
     @apply block w-full bg-gray-100 rounded mb-2;
 }

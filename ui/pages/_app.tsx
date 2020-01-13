@@ -18,8 +18,8 @@ class CustomApp extends App {
     return (
       <div>
         <NavBar/>
-        <div className='container w-full mx-auto pt-20'>
-          <div className="w-full px-8 md:px-0 md:mt-8 mb-16 text-gray-800 leading-normal">
+        <div className='container w-full mx-auto'>
+          <div className="w-full mt-2 mb-16 text-gray-800 leading-normal">
             <Component {...pageProps} />
           </div>
         </div>

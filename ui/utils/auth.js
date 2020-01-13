@@ -28,6 +28,8 @@ export const auth = ctx => {
   return token
 }
 
+export const isTokenInvalid = (token) => !token || (token && token.exp <= Math.round(new Date().getTime()/1000))
+
 export const logout = () => {
   cookie.remove('token')
   // to support logging out from all windows
@@ -60,7 +62,6 @@ export const withAuthSync = WrappedComponent => {
 
   Wrapper.getInitialProps = async ctx => {
     const token = auth(ctx)
-
 
     const componentProps =
       WrappedComponent.getInitialProps &&
