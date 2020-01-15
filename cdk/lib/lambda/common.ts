@@ -47,7 +47,7 @@ export const createLambda = (stack: Stack, role: IRole, functionName: string, ha
     runtime: Runtime.PYTHON_3_8,
     functionName: functionName,
     handler: handler,
-    code: Code.fromAsset('../aws_lambda'),
+    code: Code.fromAsset('../aws_lambda/app'),
     timeout: Duration.minutes(1),
     memorySize: 128,
     role: role

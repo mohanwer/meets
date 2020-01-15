@@ -1,5 +1,5 @@
-import unittest, json
-import aws_lambda.events as db
+import unittest
+import aws_lambda.app.db.events as db
 from moto import mock_dynamodb2
 
 
@@ -14,7 +14,7 @@ class TestDatabaseMethods(unittest.TestCase):
                 "address1": "$inputRoot.address1",
                 "address2": "$inputRoot.address2",
                 "city": "$inputRoot.city",
-                "state": '',
+                "state": 'IN',
                 "postal": "$inputRoot.postal",
                 'userId': 'abc',
                 'geoLocation': {
@@ -59,8 +59,4 @@ class TestDatabaseMethods(unittest.TestCase):
         pass
 
     def create_id_json(self, id):
-        return {
-            'queryStringParameters': {
-                'id': id
-            }
-        }
+        return {'id': id}

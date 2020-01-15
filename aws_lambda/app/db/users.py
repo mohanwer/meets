@@ -1,12 +1,5 @@
-import boto3, time
-
-
-RESOURCE_NAME = 'dynamodb'
-REGION_NAME = 'us-east-2'
-TABLE_NAME = 'Meets'
-
-client = boto3.resource(RESOURCE_NAME, region_name=REGION_NAME)
-table = client.Table(TABLE_NAME)
+import time
+from .config import table
 
 
 # Called after a user sign ins. This will receive user properties from cognito authorizer in api gateway.

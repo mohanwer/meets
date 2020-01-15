@@ -1,5 +1,5 @@
-import unittest, time
-import aws_lambda.users as users
+import unittest
+import aws_lambda.app.db.users as users
 from moto import mock_dynamodb2
 
 

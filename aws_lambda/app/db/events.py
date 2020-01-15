@@ -1,13 +1,6 @@
 import time, uuid, boto3
 from decimal import Decimal
-
-
-RESOURCE_NAME = 'dynamodb'
-REGION_NAME = 'us-east-2'
-TABLE_NAME = 'Meets'
-
-client = boto3.resource(RESOURCE_NAME, region_name=REGION_NAME)
-table = client.Table(TABLE_NAME)
+from .config import table
 
 
 def create(event, context):
@@ -69,13 +62,17 @@ def update(event, context):
         Key={"id": id},
         UpdateExpression="set eventName=:n, shortDescription=:s, "
                          "longDescription=:l, modified=:t, modifiedBy=:m",
-        ConditionExpression="type = 'event'",
+        ConditionExpression="#ty = :ty",
         ExpressionAttributeValues={
             ':n': body['eventName'],
             ':s': body['shortDescription'],
             ':l': body['longDescription'],
             ':m': body['userId'],
-            ':t': current_time
+            ':t': current_time,
+            ':ty': 'event'
+        },
+        ExpressionAttributeNames={
+          '#ty': 'type'
         },
         ReturnValues='UPDATED_NEW'
     )

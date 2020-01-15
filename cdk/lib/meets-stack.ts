@@ -19,13 +19,13 @@ export class MeetsStack extends Stack {
     const api = createApi(this)
     const authorizer = createAuthorizer(this, api)
     const lambdaRole = createLambdaRole(this)
-    const eventsCreate = createLambda(this, lambdaRole, 'Meets-Create', 'events.create')
-    const eventsGetLambda = createLambda(this, lambdaRole, 'Meets-Get', 'events.get')
+    const eventsCreate = createLambda(this, lambdaRole, 'Meets-Create', 'db.events.create')
+    const eventsGetLambda = createLambda(this, lambdaRole, 'Meets-Get', 'db.events.get')
     const eventResource = createEventResource(this, api)
     const postMethod = eventsPost(this, eventsCreate, api, eventResource, authorizer)
     const getMethod = eventsGet(this, eventsGetLambda, api, eventResource)
 
-    const userUpdateLambda = createLambda(this, lambdaRole, 'Meets-Users-Update', 'users.update_user_properties')
+    const userUpdateLambda = createLambda(this, lambdaRole, 'Meets-Users-Update', 'db.users.update_user_properties')
     const userResource = createUsersResource(this, api)
   }
 }
