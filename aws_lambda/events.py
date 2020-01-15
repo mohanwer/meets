@@ -1,5 +1,6 @@
-import boto3, time, uuid
+import time, uuid, boto3
 from decimal import Decimal
+
 
 RESOURCE_NAME = 'dynamodb'
 REGION_NAME = 'us-east-2'
@@ -68,6 +69,7 @@ def update(event, context):
         Key={"id": id},
         UpdateExpression="set eventName=:n, shortDescription=:s, "
                          "longDescription=:l, modified=:t, modifiedBy=:m",
+        ConditionExpression="type = 'event'",
         ExpressionAttributeValues={
             ':n': body['eventName'],
             ':s': body['shortDescription'],

@@ -2,6 +2,7 @@ import cdk, {Stack} from '@aws-cdk/core'
 import {createApi, createAuthorizer} from "./api/root"
 import {createLambda, createLambdaRole} from "./lambda/common"
 import {createEventResource, eventsGet, eventsPost} from "./api/events"
+import {createUsersResource} from "./api/users"
 
 export const stackProps: cdk.StackProps = {
   env: {
@@ -23,5 +24,8 @@ export class MeetsStack extends Stack {
     const eventResource = createEventResource(this, api)
     const postMethod = eventsPost(this, eventsCreate, api, eventResource, authorizer)
     const getMethod = eventsGet(this, eventsGetLambda, api, eventResource)
+
+    const userUpdateLambda = createLambda(this, lambdaRole, 'Meets-Users-Update', 'users.update_user_properties')
+    const userResource = createUsersResource(this, api)
   }
 }
