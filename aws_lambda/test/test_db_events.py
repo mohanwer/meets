@@ -2,11 +2,7 @@ import unittest
 import aws_lambda.app.db.events as db
 from moto import mock_dynamodb2
 
-
-class TestDatabaseMethods(unittest.TestCase):
-
-    def setUp(self):
-        self._event = {
+mock_event = {
             'body': {
                 'eventName': 'testName',
                 'shortDescription': 'testShort',
@@ -23,6 +19,12 @@ class TestDatabaseMethods(unittest.TestCase):
                 }
             },
         }
+
+
+class TestDatabaseMethods(unittest.TestCase):
+
+    def setUp(self):
+        self._event = mock_event
         self._context = {}
         self._id = db.create(self._event, self._context)['id']
         pass

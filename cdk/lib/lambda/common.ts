@@ -2,6 +2,7 @@ import {Duration, Stack} from '@aws-cdk/core'
 import  {Effect, IRole, PolicyStatement, Role, ServicePrincipal} from "@aws-cdk/aws-iam"
 import {Code, Function, Runtime} from '@aws-cdk/aws-lambda'
 import {stackProps} from "../meets-stack"
+import {RestApi} from "@aws-cdk/aws-apigateway"
 
 export const createLambdaRole = (stack: Stack): IRole => {
   const role = new Role(stack, 'role', {
@@ -52,4 +53,8 @@ export const createLambda = (stack: Stack, role: IRole, functionName: string, ha
     memorySize: 128,
     role: role
   });
+}
+
+export const createApiResource = (scope: Stack, api: RestApi, resourceName: string) => {
+  return api.root.addResource(resourceName, {})
 }

@@ -1,8 +1,9 @@
 import cdk, {Stack} from '@aws-cdk/core'
 import {createApi, createAuthorizer} from "./api/root"
-import {createLambda, createLambdaRole} from "./lambda/common"
-import {createEventResource, eventsGet, eventsPost} from "./api/events"
-import {createUsersResource} from "./api/users"
+import {createLambda, createLambdaRole, createApiResource} from "./lambda/common"
+import {eventsGet, eventsPost} from "./api/events"
+import {createResponseGenericIdModel} from "./api/models"
+import {commentsPost} from "./api/comments"
 
 export const stackProps: cdk.StackProps = {
   env: {
@@ -17,15 +18,21 @@ export class MeetsStack extends Stack {
     super(scope, id, stackProps);
 
     const api = createApi(this)
+    const genericIdResponseModel = createResponseGenericIdModel(api)
     const authorizer = createAuthorizer(this, api)
     const lambdaRole = createLambdaRole(this)
+
     const eventsCreate = createLambda(this, lambdaRole, 'Meets-Create', 'db.events.create')
     const eventsGetLambda = createLambda(this, lambdaRole, 'Meets-Get', 'db.events.get')
-    const eventResource = createEventResource(this, api)
-    const postMethod = eventsPost(this, eventsCreate, api, eventResource, authorizer)
-    const getMethod = eventsGet(this, eventsGetLambda, api, eventResource)
+    const eventResource = createApiResource(this, api, 'events')
+    eventsPost(this, eventsCreate, api, eventResource, authorizer, genericIdResponseModel)
+    eventsGet(this, eventsGetLambda, api, eventResource)
 
-    const userUpdateLambda = createLambda(this, lambdaRole, 'Meets-Users-Update', 'db.users.update_user_properties')
-    const userResource = createUsersResource(this, api)
+    createLambda(this, lambdaRole, 'Meets-Users-Update', 'db.users.update_user_properties')
+    const userResource = createApiResource(this, api, 'users')
+
+    const commentsResource = createApiResource(this, api, 'comments')
+    const commentsCreateLambda = createLambda(this, lambdaRole, 'Meets-Comments-Create', 'db.comments.create')
+    commentsPost(this, commentsCreateLambda, api, commentsResource, authorizer, genericIdResponseModel)
   }
 }

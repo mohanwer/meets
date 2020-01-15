@@ -1,12 +1,12 @@
 import {JsonSchemaType, JsonSchemaVersion, Model, RestApi} from "@aws-cdk/aws-apigateway"
 
-export const createResponseEventModel = (api: RestApi): Model => {
-  return api.addModel('EventsResponseModel', {
+export const createResponseGenericIdModel = (api: RestApi): Model => {
+  return api.addModel('GenericResponseModel', {
     contentType: 'application/json',
-    modelName: 'EventsCreateResponse',
+    modelName: 'GenericIdResponse',
     schema: {
       schema: JsonSchemaVersion.DRAFT4,
-      title: "EventPostResponse",
+      title: "Generic Id Response",
       type: JsonSchemaType.OBJECT,
       properties: {
         id: {
@@ -53,7 +53,7 @@ export const createGetResponseEventModel = (api: RestApi): Model => {
     modelName: 'EventGetResponse',
     schema: {
       schema: JsonSchemaVersion.DRAFT4,
-      title: 'EventGetResponse',
+      title: 'Event Get Response',
       type: JsonSchemaType.OBJECT,
       properties: {
         id: {type: JsonSchemaType.STRING},
@@ -72,6 +72,22 @@ export const createGetResponseEventModel = (api: RestApi): Model => {
             lng: {type: JsonSchemaType.NUMBER}
           }
         }
+      }
+    }
+  })
+}
+
+export const createRequestCommentModel = (api: RestApi): Model => {
+  return api.addModel('CommentRequestModel', {
+    contentType: 'application/json',
+    modelName: 'CommentPostRequest',
+    schema: {
+      schema: JsonSchemaVersion.DRAFT4,
+      title: 'Comment Post Request',
+      type: JsonSchemaType.OBJECT,
+      properties: {
+        commentText: {type: JsonSchemaType.STRING},
+        eventId: {type: JsonSchemaType.STRING},
       }
     }
   })

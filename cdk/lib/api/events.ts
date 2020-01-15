@@ -4,19 +4,23 @@ import {
   CfnAuthorizer,
   ConnectionType,
   LambdaIntegration,
+  Model,
   PassthroughBehavior,
   RestApi,
 } from '@aws-cdk/aws-apigateway'
 import {IFunction} from '@aws-cdk/aws-lambda'
-import {createGetResponseEventModel, createRequestEventModel, createResponseEventModel} from "./models"
+import {createGetResponseEventModel, createRequestEventModel, createResponseGenericIdModel} from "./models"
 import {Resource} from "@aws-cdk/aws-apigateway/lib/resource"
 import {integration200, integration400, method200, method400} from "./responses"
 
-export const createEventResource = (scope: Stack, api: RestApi): Resource => {
-  return api.root.addResource('events', {})
-}
-
-export const eventsPost = (scope: Stack, eventsCreate: IFunction, api: RestApi, resource: Resource, auth: CfnAuthorizer) => {
+export const eventsPost = (
+  scope: Stack,
+  eventsCreate: IFunction,
+  api: RestApi,
+  resource: Resource,
+  auth: CfnAuthorizer,
+  genericIdResponseModel: Model
+) => {
   const integration = new LambdaIntegration(eventsCreate, {
     proxy: false,
     allowTestInvoke: true,
@@ -52,7 +56,6 @@ export const eventsPost = (scope: Stack, eventsCreate: IFunction, api: RestApi, 
   })
 
   const requestModel = createRequestEventModel(api)
-  const responseModel = createResponseEventModel(api)
 
   resource.addMethod('POST', integration, {
     requestModels: {'application/json': requestModel},
@@ -63,7 +66,7 @@ export const eventsPost = (scope: Stack, eventsCreate: IFunction, api: RestApi, 
       validateRequestBody: true,
       validateRequestParameters: true
     }),
-    methodResponses: [method200(responseModel), method400]
+    methodResponses: [method200(genericIdResponseModel), method400]
   })
 }
 
